@@ -1,7 +1,6 @@
-import { useState, useEffect, useContext } from "react";
-// import CourseContext from "../context/CourseContext";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-//  // Pro Tip: Allow the Courses and CourseDetail components to retrieve their data from the REST API when those components are mounted.
+
 
  const CourseDetail =  () => {
     const [course, setCourse] = useState([]);
@@ -48,11 +47,11 @@ import { useParams } from "react-router-dom";
                         <h4 className="course--name">{course.title}</h4>
                         <p>By Joe Smith</p>
 
-                        <p>The specifications that follow will produce a bookcase with overall</p>
+                        <p>{course.description}</p>
                     </div>
                     <div>
                         <h3 className="course--detail--title">Estimated Time</h3>
-                        <p>14 hours</p>
+                        <p>{course.estimateTime}</p>
 
                         <h3 className="course--detail--title">Materials Needed</h3>
                         <ul className="course--detail--list">
