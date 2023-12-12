@@ -22,7 +22,6 @@ const Courses = ( ) =>{
     fetch(apiUrl, fetchOptions)
       .then((response) => response.json())
       .then((data) => {
-        // Do something with the data
         setCourses(data);
       })
       .catch((error) => {
