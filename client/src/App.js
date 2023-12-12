@@ -1,56 +1,39 @@
-import logo from "./logo.svg";
+
 import "./App.css";
-import ReactDOM from "react-dom/client";
-import React, { useState, useEffect } from "react";
-import { BrowserRouter } from "react-router-dom";
+import Header from './components/Header';
+import Courses from './components/Courses';
+//import CourseDetail from "./components/CourseDetail";
+import { Route, Routes } from "react-router-dom";
+import CourseDetail from "./components/CourseDetail";
+import CreateCourse from "./components/CreateCourse";
+import UpdateCourse from "./components/UpdateCourse";
+import UserSignIn from "./components/UserSignIn";
+import UserSignUp from "./components/UserSignUp";
+import NotFound from "./components/NotFound";
+
+
 
 function App() {
-  const [course, setCourse] = useState([]);
-
-  const fetchOptions = {
-    method: "GET",
-    // headers: {
-    //   Authorization: `Basic ${encodedCredentials}`
-  };
-
-  //const apiUrl = '../api/routes/course';
-  const apiUrl = "http://localhost:5000/api/courses";
-
-  const fetchData = () => {
-    fetch(apiUrl, fetchOptions)
-      .then((response) => response.json())
-      .then((data) => {
-        // Do something with the data
-        setCourse(data);
-      })
-      .catch((error) => {
-        // Handle the error
-      });
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  
+  
 
   return (
     <>
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+       <Header />
+        <Routes>
+       <Route path="/" element={<Courses />}/>
+       <Route path="/courses/create" element={ <CreateCourse />} />
+       <Route path="/courses/:id/update" element={ <UpdateCourse/>} />
+       <Route path="/courses/:id" element={ <CourseDetail />} />
+       <Route path="/signin" element={ <UserSignIn />} />
+       <Route path="/signup" element={ <UserSignUp />} />
+       <Route path="/signout"/>
+
+       </Routes> 
+    
       </div>
-      <div>
+      {/* <div>
         <ul>
           {course.map((courseObj, index) => (
             <>
@@ -62,7 +45,7 @@ function App() {
             </>
           ))}
         </ul>
-      </div>
+      </div> */}
     </>
   );
 }
