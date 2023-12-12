@@ -1,18 +1,24 @@
-//Detail
-//api/courses/:id
-//Renders delete course buttion
-//renders Update Course button
+import { useContext } from "react";
+import CourseContext from "../context/CourseContext";
+import { useParams } from "react-router-dom";
+//  // Pro Tip: Allow the Courses and CourseDetail components to retrieve their data from the REST API when those components are mounted.
 
- // Pro Tip: Allow the Courses and CourseDetail components to retrieve their data from the REST API when those components are mounted.
+ const CourseDetail =  () => {
+    const { id } = useParams();
+    const { course } = useContext(CourseContext);
+    
 
- const CourseDetail = ( data ) => {
+//     // Pro Tip: Allow the Courses and CourseDetail components to retrieve their data from the REST API when those components are mounted. 
+
+
+    
     return (
         <main>
         <div class="actions--bar">
             <div className="wrap">
-                <a className="button" href="update-course.html">Update Course</a>
+                <a className="button" href={`/courses/${id}/update`}>Update Course</a>
                 <a className="button" href="#">Delete Course</a>
-                <a className="button button-secondary" href="index.html">Return to List</a>
+                <a className="button button-secondary" href="/">Return to List</a>
             </div>
         </div>
         
@@ -22,7 +28,7 @@
                 <div class="main--flex">
                     <div>
                         <h3 class="course--detail--title">Course</h3>
-                        <h4 class="course--name">Build a Basic Bookcase</h4>
+                        <h4 class="course--name">Title</h4>
                         <p>By Joe Smith</p>
 
                         <p>The specifications that follow will produce a bookcase with overall</p>

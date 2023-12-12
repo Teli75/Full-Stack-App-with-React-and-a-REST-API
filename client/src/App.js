@@ -10,17 +10,17 @@ import UpdateCourse from "./components/UpdateCourse";
 import UserSignIn from "./components/UserSignIn";
 import UserSignUp from "./components/UserSignUp";
 import NotFound from "./components/NotFound";
+import Nav from "./components/Nav";
 
 
 
 function App() {
   
-  
-
   return (
     <>
       <div className="App">
        <Header />
+       <Nav />
         <Routes>
        <Route path="/" element={<Courses />}/>
        <Route path="/courses/create" element={ <CreateCourse />} />
@@ -33,29 +33,10 @@ function App() {
        </Routes> 
     
       </div>
-      {/* <div>
-        <ul>
-          {course.map((courseObj, index) => (
-            <>
-              <li key={courseObj.id}>{courseObj.title}</li>
-              <li key={courseObj.id}>{courseObj.description}</li>
-              <li key={courseObj.id}>{courseObj.estimatedTime}</li>
-              <li key={courseObj.id}>{courseObj.materialsNeeded}</li>
-              <br></br>
-            </>
-          ))}
-        </ul>
-      </div> */}
     </>
   );
 }
 
 export default App;
 
-// ReactDOM.createRoot(document.getElementById("root")).render(
-//   <React.StrictMode>
-//     <BrowserRouter>
-//       <App />
-//     </BrowserRouter>
-//   </React.StrictMode>
-// );
+
