@@ -18,7 +18,7 @@ const UpdateCourse = () => {
     const fetchOptions = {
         method: "GET"
     };
-    const apiUrl = `http://localhost:5000/api/courses/${id}/update`;
+    const apiUrl = `http://localhost:5000/api/courses/${id}`;
 
     const fetchData = async () => {
         await fetch(apiUrl, fetchOptions)
