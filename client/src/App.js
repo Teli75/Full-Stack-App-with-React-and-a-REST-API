@@ -1,6 +1,6 @@
+import { Route, Routes } from "react-router-dom";
 import Header from './components/Header';
 import Courses from './components/Courses';
-import { Route, Routes } from "react-router-dom";
 import CourseDetail from "./components/CourseDetail";
 import CreateCourse from "./components/CreateCourse";
 import UpdateCourse from "./components/UpdateCourse";

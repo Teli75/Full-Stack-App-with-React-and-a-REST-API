@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import Markdown from 'react-markdown';
 
 
  const CourseDetail =  () => {
@@ -15,7 +16,7 @@ import { useParams } from "react-router-dom";
         fetch(apiUrl, fetchOptions)
           .then((response) => response.json())
           .then((data) => {
-            setCourse(data);
+            setCourse(data.course);
           })
           .catch((error) => {
             // Handle the error
@@ -26,7 +27,8 @@ import { useParams } from "react-router-dom";
     fetchData();
   }, []);
 
-
+//   course.materialsNeeded.split("*");
+  //let courseMaterialsNeeded = course.materialsNeeded.split("*");
     
     return (
         <main>
@@ -51,19 +53,28 @@ import { useParams } from "react-router-dom";
                     </div>
                     <div>
                         <h3 className="course--detail--title">Estimated Time</h3>
-                        <p>{course.estimateTime}</p>
+                        <p>{course.estimatedTime}</p>
 
                         <h3 className="course--detail--title">Materials Needed</h3>
                         <ul className="course--detail--list">
-                            <li>1/2 x 3/4 inch parting strip</li>
-                            <li>Wood Filler</li>
-                            <li>Minwax Oil Based Polyurethane</li>
+                           {/* { course.materialsNeeded? <Markdown>{course.materialsNeeded}</Markdown> : "" } */}
+                           <Markdown>{course.materialsNeeded}</Markdown>
+{/*                         
+                            {courseMaterialsNeeded.map((material) => {
+                                return (
+                                 <li>{ material }</li>
+                                )
+                            })} */}
+                           
+                          
                         </ul>
                     </div>
                 </div>
             </form>
         </div>
+
     </main>
+   
     )};
 
 export default CourseDetail;

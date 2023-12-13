@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import CourseContext from '../context/CourseContext';
-
 
 const Courses = ( ) =>{
   const { id } = useParams();

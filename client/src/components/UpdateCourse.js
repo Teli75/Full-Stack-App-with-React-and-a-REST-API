@@ -1,8 +1,31 @@
-//Update Course form and button
-//api/courses/:id
-//cancel button returns users to course detail
+import { useState, useEffect } from 'react';
+import { useParams } from "react-router-dom";
 
 const UpdateCourse = () => {
+    const [course, setCourse] = useState([]);
+    const { id } = useParams();
+
+    const fetchOptions = {
+        method: "GET"
+    };
+    const apiUrl = `http://localhost:5000/api/courses/${id}/update`;
+
+    const fetchData = () => {
+        fetch(apiUrl, fetchOptions)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            setCourse(data.course);
+          })
+          .catch((error) => {
+            // Handle the error
+          });
+    };
+
+    //Allows components to render when they're mounted
+  useEffect(() => {
+    fetchData();
+  }, []);
     return(
 
 <main>
@@ -12,22 +35,22 @@ const UpdateCourse = () => {
         <div className="main--flex">
             <div>
                 <label for="courseTitle">Course Title</label>
-                <input id="courseTitle" name="courseTitle" type="text" value="Build a Basic Bookcase"/>
+                <input id="courseTitle" name="courseTitle" type="text" value={ course.title }/>
 
                 <p>By Joe Smith</p>
 
                 <label for="courseDescription">Course Description</label>
-                <textarea id="courseDescription" name="courseDescription">High-end furniture projects are great to dream about. But unless you have a well-equipped shop and some serious woodworking experience to draw on, it can be difficult to turn the dream into a .</textarea>
+                <textarea id="courseDescription" name="courseDescription" value={ course.description } ></textarea>
             </div>
             <div>
                 <label for="estimatedTime">Estimated Time</label>
-                <input id="estimatedTime" name="estimatedTime" type="text" value="14 hours"/>
+                <input id="estimatedTime" name="estimatedTime" type="text" value={ course.estimatedTime }/>
 
                 <label for="materialsNeeded">Materials Needed</label>
-                <textarea id="materialsNeeded" name="materialsNeeded">* 1/2 x 3/4 inch parting strip&#13;&#13;* 1 x 2 common pine&#13;&#13;* 1 x 4 common pine&#13;&#13;* 1 x 10 common pine&#13;&#13;* 1/4 inch thick lauan plywood&#13;&#13;* Finishing Nails&#13;&#13;* Sandpaper&#13;&#13;* Wood Glue&#13;&#13;* Wood Filler&#13;&#13;* Minwax Oil Based Polyurethane</textarea>
+                <textarea id="materialsNeeded" name="materialsNeeded" value={ course.materialsNeeded }></textarea>
             </div>
         </div>
-        <button className="button" type="submit">Update Course</button><button className="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button>
+        <button className="button" type="submit">Update Course</button><button className="button button-secondary" onClick="event.preventDefault(); location.href='index.html';">Cancel</button>
     </form>
 </div>
 </main>
