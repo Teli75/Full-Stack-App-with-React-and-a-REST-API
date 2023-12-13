@@ -52,6 +52,13 @@ const UpdateCourse = () => {
 //     materialsNeeded: e.target.value
 //   });
 //   }
+// const handleChange = (e) => {
+//   const { name, value } = e.target;
+//       setCourse((prevState) => ({
+//         ...prevState,
+//         [name]: value
+//       }));
+// };
 const handleChange = (e) => {
   const { name, value } = e.target;
       setCourse({[name]: value });

@@ -26,6 +26,13 @@ const handleChange = (e) => {
         setCourse({[name]: value });
 };
 
+// const handleChange = (e) => {
+//     const { name, value } = e.target;
+//         setCourse((prevState) => ({
+//           ...prevState,
+//           [name]: value
+//         }));
+//   };
 const handleCancel = (e) => {
     e.preventDefault();
     navigate("/");
