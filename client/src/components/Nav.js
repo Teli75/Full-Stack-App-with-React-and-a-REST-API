@@ -6,8 +6,8 @@ const Nav = () => (
   
   <nav className="main-nav">
     <ul>
-      <li><NavLink to="/courses/:id" >  </NavLink></li>
-      <li><NavLink to="/courses/create">  </NavLink></li>
+      <Link> to="signup" to="/signup">Sign Up</Link>
+      <Link> to="signup" to="/signup">Sign Up</Link>
     </ul>
   </nav>
 

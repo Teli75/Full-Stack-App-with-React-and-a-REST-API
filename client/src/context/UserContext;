@@ -7,3 +7,5 @@ const UserContext = createContext(null);
 export const UserProvider = (props) => {
   const cookie = Cookies.get("authenticatedUser");
   const [authUser, setAuthUser] = useState(cookie ? JSON.parse(cookie) : null);
+
+  
