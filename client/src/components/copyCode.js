@@ -1,93 +1,81 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import Markdown from 'react-markdown';
 
-const CreateCourse = () => {
-  const navigate = useNavigate();
 
-  const [course, setCourse] = useState({
-    title: "",
-    description: "",
-   estimatedTime: "",
-    materialsNeeded: ""
-    });
+ const CourseDetail =  () => {
+    const [course, setCourse] = useState([]);
+    const { id } = useParams();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    fetch('http://localhost:5000/api/courses', {method: 'POST'}, course)
+    const apiUrl = `http://localhost:5000/api/courses/${id}`;
+
+    const fetchData = () => {
+        fetch(apiUrl, {method: 'GET'})
+          .then((response) => response.json())
+          .then((data) => {
+            setCourse(data.course);
+          })
+          .catch((error) => {
+            // Handle the error
+          });
+    };
+    //Allows components to render when they're mounted
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const deleteCourse = () => {
+    fetch(`http://localhost:5000/api/courses/${id}`, {method:'DELETE'})
     .then((response) => response.json())
-    .catch((error) => {
-        console.log("Error handling post request");
-  });
-}
-
-const handleChange = (e) => {
-    const { name, value } = e.target;
-        setCourse({[name]: value });
-};
-
-// const handleChange = (e) => {
-//     const { name, value } = e.target;
-//         setCourse((prevState) => ({
-//           ...prevState,
-//           [name]: value
-//         }));
-//   };
-const handleCancel = (e) => {
-    e.preventDefault();
-    navigate("/");
-  };
-  return (
-    <main>
-      <div className="wrap">
-        <h2>Create Course</h2>
-        <div className="validation--errors">
-          <h3>Validation Errors</h3>
-          <ul>
-            <li>Please provide a value htmlFor "Title"</li>
-            <li>Please provide a value htmlFor "Description"</li>
-          </ul>
+  }
+    
+    return (
+        <main>
+        <div className="actions--bar">
+            <div className="wrap">
+                <a className="button" href={`/courses/${id}/update`}>Update Course</a>
+                <a className="button" onClick={deleteCourse} >Delete Course</a>
+                <a className="button button-secondary" href="/">Return to List</a>
+            </div>
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className="main--flex">
-            <div>
-              <label htmlFor="courseTitle">Course Title</label>
-              <input id="courseTitle" name="courseTitle" type="text" value= {course.title} onChange={handleChange} />
+        
+        <div className="wrap">
+            <h2>Course Detail</h2>
+            <form>
+                <div className="main--flex">
+                    <div>
+                        <h3 className="course--detail--title">Course</h3>
+                        <h4 className="course--name">{course.title}</h4>
+                        <p>By Joe Smith</p>
 
-              <p>By Joe Smith</p>
+                        <p>{course.description}</p>
+                    </div>
+                    <div>
+                        <h3 className="course--detail--title">Estimated Time</h3>
+                        <p>{course.estimatedTime}</p>
 
-              <label htmlFor="courseDescription">Course Description</label>
-              <textarea
-                id="courseDescription"
-                name="courseDescription"
-                value={ course.description } 
-                onChange={handleChange}
-              ></textarea>
-            </div>
-            <div>
-              <label htmlFor="estimatedTime">Estimated Time</label>
-              <input
-                id="estimatedTime"
-                name="estimatedTime"
-                type="text"
-                value={course.estimatedTime}
-                onChange={handleChange}
-              />
+                        <h3 className="course--detail--title">Materials Needed</h3>
+                        <ul className="course--detail--list">
+                           <Markdown>{course.materialsNeeded}</Markdown>
+{/*                         
+                            {courseMaterialsNeeded.map((material) => {
+                                return (
+                                 <li>{ material }</li>
+                                )
+                            })} */}
+                           
+                          
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div>
 
-              <label htmlFor="materialsNeeded">Materials Needed</label>
-              <textarea id="materialsNeeded" name="materialsNeeded" value={ course.materialsNeeded } onChange={handleChange}></textarea>
-            </div>
-          </div>
-          <button className="button" type="submit">
-            Create Course
-          </button>
-          <button className="button button-secondary" onClick={handleCancel}>
-            Cancel
-          </button>
-        </form>
-      </div>
     </main>
-  );
-};
+   
+    )};
 
-export default CreateCourse;
+export default CourseDetail;
+
+
+ 
