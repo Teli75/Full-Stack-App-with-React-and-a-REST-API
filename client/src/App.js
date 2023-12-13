@@ -9,8 +9,6 @@ import UserSignUp from "./components/UserSignUp";
 import NotFound from "./components/NotFound";
 import Nav from "./components/Nav";
 
-
-
 function App() {
   
   return (

@@ -7,13 +7,10 @@ import Markdown from 'react-markdown';
     const [course, setCourse] = useState([]);
     const { id } = useParams();
 
-    const fetchOptions = {
-        method: "GET"
-    };
     const apiUrl = `http://localhost:5000/api/courses/${id}`;
 
     const fetchData = () => {
-        fetch(apiUrl, fetchOptions)
+        fetch(apiUrl, {method: 'GET'})
           .then((response) => response.json())
           .then((data) => {
             setCourse(data.course);
@@ -27,15 +24,17 @@ import Markdown from 'react-markdown';
     fetchData();
   }, []);
 
-//   course.materialsNeeded.split("*");
-  //let courseMaterialsNeeded = course.materialsNeeded.split("*");
+  const deleteCourse = () => {
+    fetch(`http://localhost:5000/api/courses/${id}`, {method:'DELETE'})
+    .then((response) => response.json())
+  }
     
     return (
         <main>
         <div className="actions--bar">
             <div className="wrap">
                 <a className="button" href={`/courses/${id}/update`}>Update Course</a>
-                <a className="button" href="#">Delete Course</a>
+                <a className="button" onClick={deleteCourse} >Delete Course</a>
                 <a className="button button-secondary" href="/">Return to List</a>
             </div>
         </div>
@@ -57,7 +56,6 @@ import Markdown from 'react-markdown';
 
                         <h3 className="course--detail--title">Materials Needed</h3>
                         <ul className="course--detail--list">
-                           {/* { course.materialsNeeded? <Markdown>{course.materialsNeeded}</Markdown> : "" } */}
                            <Markdown>{course.materialsNeeded}</Markdown>
 {/*                         
                             {courseMaterialsNeeded.map((material) => {

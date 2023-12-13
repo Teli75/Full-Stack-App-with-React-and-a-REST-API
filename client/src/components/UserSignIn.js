@@ -1,14 +1,34 @@
-//Provide sign-in screen and button
-//cancel buttion
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const UserSignIn = () => {
+  // State
+  const username = useRef(null);
+  const password = useRef(null);
+
+  const navigate = useNavigate();
+
+  // Event Handlers
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    
+  //call signIn function from userContext I need to create
+    navigate("/");
+  }
+
+  const handleCancel = (e) =>{
+    e.preventDefault();
+    navigate('/');
+}
+
   return (
     <main>
       <div class="form--centered">
         <h2>Sign In</h2>
         <p>
-          Don't have a user account? Click here to{" "}
-          <a href="sign-up.html">sign up</a>!
+          Don't have a user account? Click here to <a href="/signup">sign up</a>
+          !
         </p>
         <form>
           <label for="emailAddress">Email Address</label>
@@ -27,8 +47,7 @@ const UserSignIn = () => {
         </button>
         <button
           class="button button-secondary"
-          onclick="event.preventDefault(); location.href='index.html';"
-        >
+          onClick={handleCancel} >
           Cancel
         </button>
       </div>
