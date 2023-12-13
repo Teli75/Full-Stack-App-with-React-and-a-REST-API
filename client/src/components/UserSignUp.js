@@ -6,11 +6,11 @@ const UserSignUp = () => {
    const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // const user = {
-    //   firstName: name.current.value,
-    //   username: username.current.value,
-    //   password: password.current.value
-    // }
+    const user = {
+      firstName: name.current.value,
+      username: username.current.value,
+      password: password.current.value
+    }
 }
       const handleCancel = (e) => {
         e.preventDefault();
