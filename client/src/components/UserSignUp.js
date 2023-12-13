@@ -2,13 +2,21 @@ import { useNavigate } from "react-router-dom";
 
 const UserSignUp = () => {
     const navigate = useNavigate();
-    const handleSubmit = (event) => {
-        event.preventDefault();
-      }
+
+   const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // const user = {
+    //   firstName: name.current.value,
+    //   username: username.current.value,
+    //   password: password.current.value
+    // }
+}
       const handleCancel = (e) => {
         e.preventDefault();
           navigate('/');
       }
+
 
    return (
     <main>

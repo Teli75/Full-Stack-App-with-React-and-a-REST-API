@@ -29,6 +29,7 @@ router.get(
   })
 );
 
+
 // Route that creates a new course.
 router.post(
   "/courses",
@@ -77,6 +78,28 @@ router.get(
       res.status(200).json({ course });
     } else {
       //This generates an error that is sent to middlwware
+      next();
+    }
+  })
+);
+
+router.get(
+  "/courses/:id/update",
+  asyncHandler(async (req, res) => {
+    console.log("Entered detail get route");
+    //find course
+    const course = await Course.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+        },
+      ],
+    });
+
+    if (course) {
+      //res.json(course);
+      res.status(200).json({ course });
+    } else {
       next();
     }
   })
