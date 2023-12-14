@@ -32,11 +32,13 @@ const UserSignIn = () => {
     };
 
     try {
-     const user = await actions.signin(credentials);
+     const user = await actions.signIn(credentials);
      if (user){
-      navigate("/")
+      console.log("user authenticated");
+      navigate("/");
+     } else {
+       setErrors('sign in unsuccessful');
      }
-    
     } catch (error) {
       console.log(error);
      

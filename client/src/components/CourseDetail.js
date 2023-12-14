@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Markdown from 'react-markdown';
+import { useContext } from "react";
+import UserContext from "../context/UserContext";
 
 
  const CourseDetail =  () => {
+  const { authUser } = useContext(UserContext);
     const [course, setCourse] = useState([]);
     const { id } = useParams();
 
@@ -22,7 +25,7 @@ import Markdown from 'react-markdown';
     //Allows components to render when they're mounted
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [authUser]);
 
   const deleteCourse = () => {
     fetch(`http://localhost:5000/api/courses/${id}`, {method:'DELETE'})

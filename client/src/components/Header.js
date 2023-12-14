@@ -5,10 +5,10 @@ const Header = () => {
   return (
     <header>
       <div className="wrap header--flex">
-        {/* <h1 className="header--logo">
+        <h1 className="header--logo">
           <a href="/">Courses</a>
-        </h1> */}
-        <Link to="/"><h1 className="header--logo">Courses</h1></Link>
+        </h1>
+        {/* <Link to="/"><h1 className="header--logo">Courses</h1></Link> */}
        <Nav />
          
       </div>
