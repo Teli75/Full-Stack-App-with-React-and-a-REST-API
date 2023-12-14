@@ -1,22 +1,16 @@
-//stateless
+import { Link } from 'react-router-dom';
+import Nav from './Nav';
 
 const Header = () => {
   return (
     <header>
       <div className="wrap header--flex">
-        <h1 className="header--logo">
+        {/* <h1 className="header--logo">
           <a href="/">Courses</a>
-        </h1>
-        <nav>
-          <ul className="header--signedin">
-            <li>Welcome, Joe Smith!</li>
-            <li>
-              {/* a conditional, if user, signout
-              if no user, sign in or sign up */ }
-              <a href="/">Sign Out</a>
-            </li>
-          </ul>
-        </nav>
+        </h1> */}
+        <Link to="/"><h1 className="header--logo">Courses</h1></Link>
+       <Nav />
+         
       </div>
     </header>
   );

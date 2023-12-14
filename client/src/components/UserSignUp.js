@@ -71,17 +71,18 @@ const UserSignUp = () => {
         </div>)
         :  null } 
         <form onSubmit={handleSubmit}>
-          <label for="firstName">First Name</label>
+          <label htmlFor="firstName">First Name</label>
           <input id="firstName" name="firstName" type="text" ref={firstName} />
-          <label for="lastName">Last Name</label>
+          <label htmlFor="lastName">Last Name</label>
           <input id="lastName" name="lastName" type="text" ref={lastName} />
-          <label for="emailAddress">Email Address</label>
+          <label htmlFor="emailAddress">Email Address</label>
           <input
             id="emailAddress"
             name="emailAddress"
             type="email"
             ref={email}
           ></input>
+            <label htmlFor="password">Password</label>
           <input id="password" name="password" type="password" ref={password} />
           <button className="button" type="submit">
             Sign Up
