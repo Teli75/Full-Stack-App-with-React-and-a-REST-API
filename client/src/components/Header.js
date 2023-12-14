@@ -11,7 +11,9 @@ const Header = () => {
           <ul className="header--signedin">
             <li>Welcome, Joe Smith!</li>
             <li>
-              <a href="sign-out.html">Sign Out</a>
+              {/* a conditional, if user, signout
+              if no user, sign in or sign up */ }
+              <a href="/">Sign Out</a>
             </li>
           </ul>
         </nav>

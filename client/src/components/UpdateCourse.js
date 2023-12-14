@@ -46,13 +46,6 @@ const UpdateCourse = () => {
   }
 
 // const handleChange = (e) => {
-//   setCourse({title: e.target.value,
-//     description: e.target.value,
-//     estimatedTime: e.target.value,
-//     materialsNeeded: e.target.value
-//   });
-//   }
-// const handleChange = (e) => {
 //   const { name, value } = e.target;
 //       setCourse((prevState) => ({
 //         ...prevState,

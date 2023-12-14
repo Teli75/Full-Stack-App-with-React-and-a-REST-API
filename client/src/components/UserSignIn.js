@@ -1,53 +1,100 @@
-import { useRef } from "react";
+import { useRef, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+// import UserContext from '../context/UserContext';
 
 const UserSignIn = () => {
-  // State
-  const username = useRef(null);
-  const password = useRef(null);
-
+ 
+  // const { actions } = useContext(UserContext);
   const navigate = useNavigate();
+  // State
+  const email = useRef(null);
+  const password = useRef(null);
+  const [errors, setErrors] = useState([]);
 
   // Event Handlers
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = async (event) => {
+     console.log('Entered signin handle submit');
+     event.preventDefault();
+   
 
-    
-  //call signIn function from userContext I need to create
-    navigate("/");
-  }
+ const credentials = {
+      email: email.current.value,
+      password: password.current.value,
+    };
+  
+    //Creates a base-64 encoded asci string
+  const encodedCredentials = btoa(`${credentials.email}:${credentials.password}`);
 
-  const handleCancel = (e) =>{
+    const fetchOptions = {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${encodedCredentials}`
+      }
+    };
+
+    try{
+      const response = await fetch(
+        "http://localhost:5000/api/users",
+        fetchOptions
+      );
+      console.log(response);
+      
+      if (response.status === 201) {
+        console.log(` signed in`);
+      } else if (response.status === 400) {
+        const data = await response.json();
+        setErrors(data.errors);
+        console.log(data);
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      console.log(error);
+      navigate("/Error");
+    }
+  };
+    // try{
+    //   const user = await actions.signIn(credentials);
+    //   if (user) {
+    //     console.log("authenticated!");
+    //   } else{
+    //      setErrors(["Sign-in was unsuccessful"]);
+    //   }
+    // }catch (error){
+    //   console.log(error);
+    //   navigate("/");
+    // }
+  //}
+
+  const handleCancel = (e) => {
     e.preventDefault();
-    navigate('/');
-}
+    navigate("/");
+  };
 
   return (
     <main>
-      <div class="form--centered">
+      <div className="form--centered">
         <h2>Sign In</h2>
         <p>
           Don't have a user account? Click here to <a href="/signup">sign up</a>
           !
         </p>
-        <form>
-          <label for="emailAddress">Email Address</label>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="emailAddress">Email Address</label>
           <input
             id="emailAddress"
             name="emailAddress"
             type="email"
-            value=""
+            ref={ email }
           ></input>
-          <label for="password">Password</label>
-          <input id="password" name="password" type="password" value=""></input>
+          <label htmlFor="password">Password</label>
+          <input id="password" name="password" type="password" ref={ password }></input>
         </form>
 
-        <button class="button" type="submit">
+        <button className="button" type="submit">
           Sign In
         </button>
-        <button
-          class="button button-secondary"
-          onClick={handleCancel} >
+        <button className="button button-secondary" onClick={handleCancel}>
           Cancel
         </button>
       </div>

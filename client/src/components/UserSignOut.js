@@ -1,2 +1,14 @@
-//stateless
-//This component is a bit of an oddball as it doesn't render any visual elements. Instead, it signs out the authenticated user and redirects the user to the default route (i.e. the list of courses).
+import { useEffect, useContext } from 'react';
+import { Navigate } from 'react-router-dom';
+import UserContext from '../context/UserContext';
+
+const UserSignOut = () => {
+  const { actions } = useContext(UserContext);
+
+  useEffect(() => actions.signOut());
+  return (
+    <Navigate to="/" replace />
+  );
+};
+
+export default UserSignOut;
