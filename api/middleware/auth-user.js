@@ -17,7 +17,9 @@ exports.authenticateUser = async (req, res, next) => {
 
   // Parse the user's credentials from the Authorization header.
   const credentials = auth(req);
+  console.log('test');
   console.log(credentials);
+  console.log('test');
 
   if (credentials) {
     //Check if the user's email address) is associated with a known user account in the db using a Sequelize finder method.
