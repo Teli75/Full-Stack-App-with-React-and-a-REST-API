@@ -1,8 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import UserContext from "../context/UserContext";
 
 const CreateCourse = () => {
+  const { authUser } = useContext(UserContext);
   const navigate = useNavigate();
+  const [errors, setErrors] = useState([]);
+
+  console.log(authUser);
 
   const [course, setCourse] = useState({
     title: "",
@@ -13,13 +18,21 @@ const CreateCourse = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    fetch('http://localhost:5000/api/courses', {method: 'POST'}, course)
-    .then((response) => response.json())
-    .catch((error) => {
-        console.log("Error handling post request");
-  });
+  
+  try {
+    const response = ('http://localhost:5000/api/courses', {method: 'POST'}, course)
+    if (response.status === 201) {
+    console.log('course created');
+     } else if (response.status === 401){
+        console.log("User not authorized to create course");
+  } else {
+    throw new Error();
+  }
+} catch (error) {
+  console.log(error);
+  navigate("/Error");
 }
+  }
 
 const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,8 +57,8 @@ const handleCancel = (e) => {
         <div className="validation--errors">
           <h3>Validation Errors</h3>
           <ul>
-            <li>Please provide a value htmlFor "Title"</li>
-            <li>Please provide a value htmlFor "Description"</li>
+            <li>Please provide a value For "Title"</li>
+            <li>Please provide a value For "Description"</li>
           </ul>
         </div>
         <form onSubmit={handleSubmit}>

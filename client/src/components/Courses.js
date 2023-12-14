@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
 const Courses = ( ) =>{
+  const { authUser } = useContext(UserContext);
   const { id } = useParams();
   const [courses, setCourses] = useState([]);
   
@@ -13,7 +15,6 @@ const Courses = ( ) =>{
     //   Authorization: `Basic ${encodedCredentials}`
   };
 
-  
   const apiUrl = "http://localhost:5000/api/courses";
 
   const fetchData = () => {

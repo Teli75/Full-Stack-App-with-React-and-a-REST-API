@@ -36,9 +36,14 @@ import UserContext from "../context/UserContext";
         <main>
         <div className="actions--bar">
             <div className="wrap">
+              { authUser === null ?
+              <a className="button button-secondary" href="/">Return to List</a> :
+              <>
                 <a className="button" href={`/courses/${id}/update`}>Update Course</a>
                 <a className="button" onClick={deleteCourse} >Delete Course</a>
                 <a className="button button-secondary" href="/">Return to List</a>
+                </>
+              }
             </div>
         </div>
         

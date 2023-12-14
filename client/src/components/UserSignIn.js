@@ -1,11 +1,14 @@
 import { useRef, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useResolvedPath } from "react-router-dom";
 import UserContext from '../context/UserContext';
 
 const UserSignIn = () => {
  
   const { actions } = useContext(UserContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
+
   // State
   const email = useRef(null);
   const password = useRef(null);
@@ -13,29 +16,25 @@ const UserSignIn = () => {
 
   // Event Handlers
   const handleSubmit = async (event) => {
-     console.log('Entered signin handle submit');
      event.preventDefault();
+     console.log('Entered signin handle submit');
+
+     let from= "/";
+
+     if (location.state){
+      from = location.state.from;
+     }
    
  const credentials = {
-      email: email.current.value,
+      emailAddress: email.current.value,
       password: password.current.value,
     };
   
-    //Creates a base-64 encoded asci string
-  const encodedCredentials = btoa(`${credentials.email}:${credentials.password}`);
-
-    const fetchOptions = {
-      method: "GET",
-      headers: {
-        Authorization: `Basic ${encodedCredentials}`
-      }
-    };
-
     try {
      const user = await actions.signIn(credentials);
      if (user){
       console.log("user authenticated");
-      navigate("/");
+      navigate(from);
      } else {
        setErrors('sign in unsuccessful');
      }
