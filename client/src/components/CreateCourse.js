@@ -16,14 +16,17 @@ const CreateCourse = () => {
     materialsNeeded: ""
     });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
   
   try {
-    const response = ('http://localhost:5000/api/courses', {method: 'POST'}, course)
+    const response = await('http://localhost:5000/api/courses', {method: 'POST'}, course)
     if (response.status === 201) {
     console.log('course created');
      } else if (response.status === 401){
+      const data = await response.json();
+        setErrors(data.errors);
+        console.log(data);
         console.log("User not authorized to create course");
   } else {
     throw new Error();
@@ -54,13 +57,14 @@ const handleCancel = (e) => {
     <main>
       <div className="wrap">
         <h2>Create Course</h2>
+        {errors.length ? (
         <div className="validation--errors">
           <h3>Validation Errors</h3>
           <ul>
-            <li>Please provide a value For "Title"</li>
-            <li>Please provide a value For "Description"</li>
+          { errors.map((error, i) => 
+            <li key={i}> {error}</li>)}
           </ul>
-        </div>
+        </div>) : null }
         <form onSubmit={handleSubmit}>
           <div className="main--flex">
             <div>

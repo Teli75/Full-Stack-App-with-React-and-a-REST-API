@@ -40,6 +40,7 @@ const signIn = async (credentials) => {
 
   const signOut= () => {
     setAuthUser(null);
+    Cookies.remove("authenticatedUser");
     console.log('user has been signed out');
   }
 
