@@ -6,7 +6,6 @@ export const api = (
   ) => {
     const url = "http://localhost:5000/api" + path;
   
-    console.log(body);
     const options = {
       method,
       headers: {}
