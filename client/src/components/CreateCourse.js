@@ -1,56 +1,56 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useContext } from 'react';
+import { useState, useContext } from "react";
 import UserContext from "../context/UserContext";
 import { api } from "../utils/apiHelper";
 
 const CreateCourse = () => {
   const { authUser } = useContext(UserContext);
   const navigate = useNavigate();
+
+  //State
   const [errors, setErrors] = useState([]);
-
-  console.log(authUser);
-
   const [course, setCourse] = useState({
     title: "",
     description: "",
-   estimatedTime: "",
+    estimatedTime: "",
     materialsNeeded: "",
-    userId: authUser.id
-    });
+    userId: authUser.id,
+  });
 
+    // Event Handlers
   const handleSubmit = async (e) => {
-    console.log('handle submit');
+    console.log("handle submit");
     e.preventDefault();
-  
-  try {
-    const response = await api("/courses", "POST", course, authUser);
-    if (response.status === 201) {
-    console.log('course created');
-    navigate("/");
-     } else if (response.status === 400){
-      const data = await response.json();
+
+    /*Fetch call to create a course*/
+    try {
+      const response = await api("/courses", "POST", course, authUser);
+      if (response.status === 201) {
+        console.log("course created");
+        navigate("/");
+      } else if (response.status === 400) {
+        const data = await response.json();
         setErrors(data.errors);
         console.log(data);
         console.log("User not authorized to create course");
-  } else {
-    throw new Error();
-  }
-} catch (error) {
-  console.log(error);
-
-}
-  }
-
-   /*Changes course state based of inputs */
-   const handleChange = (e) => {
-    const { name, value } = e.target;
-        setCourse((prevState) => ({
-          ...prevState,
-          [name]: value
-        }));
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-const handleCancel = (e) => {
+  /*Changes course state based of inputs */
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCourse((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleCancel = (e) => {
     e.preventDefault();
     navigate("/");
   };
@@ -60,18 +60,26 @@ const handleCancel = (e) => {
       <div className="wrap">
         <h2>Create Course</h2>
         {errors && errors.length ? (
-        <div className="validation--errors">
-          <h3>Validation Errors</h3>
-          <ul>
-          { errors.map((error, i) => 
-            <li key={i}> {error}</li>)}
-          </ul>
-        </div>) : null }
+          <div className="validation--errors">
+            <h3>Validation Errors</h3>
+            <ul>
+              {errors.map((error, i) => (
+                <li key={i}> {error}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
         <form onSubmit={handleSubmit}>
           <div className="main--flex">
             <div>
               <label htmlFor="courseTitle">Course Title</label>
-              <input id="courseTitle" name="title" type="text" value= {course.title} onChange={handleChange} />
+              <input
+                id="courseTitle"
+                name="title"
+                type="text"
+                value={course.title}
+                onChange={handleChange}
+              />
 
               <p>By Joe Smith</p>
 
@@ -79,7 +87,7 @@ const handleCancel = (e) => {
               <textarea
                 id="courseDescription"
                 name="description"
-                value={ course.description } 
+                value={course.description}
                 onChange={handleChange}
               ></textarea>
             </div>
@@ -94,7 +102,12 @@ const handleCancel = (e) => {
               />
 
               <label htmlFor="materialsNeeded">Materials Needed</label>
-              <textarea id="materialsNeeded" name="materialsNeeded" value={ course.materialsNeeded } onChange={handleChange}></textarea>
+              <textarea
+                id="materialsNeeded"
+                name="materialsNeeded"
+                value={course.materialsNeeded}
+                onChange={handleChange}
+              ></textarea>
             </div>
           </div>
           <button className="button" type="submit">

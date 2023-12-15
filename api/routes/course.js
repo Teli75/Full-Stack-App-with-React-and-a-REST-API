@@ -61,7 +61,7 @@ router.post(
 
 router.get(
   "/courses/:id",
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req, res, next) => {
     console.log("Entered detail get route");
     //find course
     const course = await Course.findByPk(req.params.id, {
@@ -77,7 +77,10 @@ router.get(
       res.status(200).json({ course });
     } else {
       //This generates an error that is sent to middlwware
-      next();
+      const err = new Error();
+      err.message = "That course does not exist";
+      err.status = 404;
+      next(err);
     }
   })
 );

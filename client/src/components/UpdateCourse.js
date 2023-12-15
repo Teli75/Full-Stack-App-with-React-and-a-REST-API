@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../utils/apiHelper';
 import UserContext from "../context/UserContext";
 
+
 const UpdateCourse = () => {
   const { authUser } = useContext(UserContext);
   const navigate = useNavigate();
@@ -19,11 +20,12 @@ const UpdateCourse = () => {
     userId: authUser.id
     });
 
-    /* Fetches a single course from db based on params */
+    /* calls fetchData function everytime page is rerendered */
     useEffect(() => {
       fetchData();
     }, []);
 
+    /* Fetches a single course from db based on params */
     const fetchData = async () => {
        
       const response = await api(`/courses/${id}`, "GET", null, null);
@@ -45,7 +47,7 @@ const UpdateCourse = () => {
       }
     };
   
-    /*Changes course state based of inputs */
+  /*Changes course state based on inputs */
 const handleChange = (e) => {
   const { name, value } = e.target;
       setCourse((prevState) => ({

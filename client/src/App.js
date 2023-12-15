@@ -14,7 +14,6 @@ function App() {
     <>
       <div className="App">
         <Header />
-      
         <Routes>
           <Route path="/" element={<Courses />} />
           <Route path="/courses/:id" element={<CourseDetail />} />

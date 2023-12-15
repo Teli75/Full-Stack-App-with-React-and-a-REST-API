@@ -7,26 +7,27 @@ import { api } from "../utils/apiHelper";
 const CourseDetail = () => {
   const { authUser } = useContext(UserContext);
   const [course, setCourse] = useState([]);
-  const [courseUser, setCourseUser] = useState([]);
   const { id } = useParams();
+
+  //State
   const navigate = useNavigate();
+  const [courseUser, setCourseUser] = useState([]);
 
   useEffect(() => {
     fetchData();
   }, [id]);
 
-
   const fetchData = async () => {
-   
     const response = await api(`/courses/${id}`, "GET", null, null);
     if (response.status === 200) {
       const course = await response.json();
       setCourse(course.course);
       setCourseUser(course.course.User);
+    } else if (!response.course) {
+      navigate("/notfound");
     } else {
       throw new Error();
     }
-  
   };
 
   const deleteCourse = () => {
@@ -39,7 +40,7 @@ const CourseDetail = () => {
     <main>
       <div className="actions--bar">
         <div className="wrap">
-          { authUser === null || course.userId !== authUser.id ? (
+          {authUser === null || course.userId !== authUser.id ? (
             <a className="button button-secondary" href="/">
               Return to List
             </a>

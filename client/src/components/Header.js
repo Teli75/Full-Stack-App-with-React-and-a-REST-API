@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import Nav from './Nav';
+import { Link } from "react-router-dom";
+import Nav from "./Nav";
 
 const Header = () => {
   return (
@@ -8,9 +8,7 @@ const Header = () => {
         <h1 className="header--logo">
           <a href="/">Courses</a>
         </h1>
-        {/* <Link to="/"><h1 className="header--logo">Courses</h1></Link> */}
-       <Nav />
-         
+        <Nav />
       </div>
     </header>
   );

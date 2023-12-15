@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useRef, useState, useContext } from "react";
-import { api } from '../utils/apiHelper';
+import { api } from "../utils/apiHelper";
 
 import UserContext from "../context/UserContext";
 
+/* Signs user in */
 const UserSignUp = () => {
   const { actions } = useContext(UserContext);
   const navigate = useNavigate();
@@ -15,9 +16,9 @@ const UserSignUp = () => {
   const password = useRef(null);
   const [errors, setErrors] = useState([]);
 
-   // Event Handlers
+  // Event Handlers
   const handleSubmit = async (e) => {
-    console.log('entered handle submit signup')
+    console.log("entered handle submit signup");
     e.preventDefault();
 
     const user = {
@@ -28,13 +29,14 @@ const UserSignUp = () => {
     };
 
     console.log(user);
-  
+
+    /*Creates user and uses userContext to sign in*/
     try {
       const response = await api("/users", "POST", user);
       if (response.status === 201) {
         console.log(`${user.firstName} is signed up!`);
-       await actions.signIn(user);
-        navigate("/")
+        await actions.signIn(user);
+        navigate("/");
       } else if (response.status === 400) {
         const data = await response.json();
         setErrors(data.errors);
@@ -56,16 +58,16 @@ const UserSignUp = () => {
     <main>
       <div className="form--centered">
         <h2>Sign Up</h2>
-        { errors.length ? (
-        <div className="validation--errors">
-          <h3>Validation Errors</h3>
-          <ul>
-            { errors.map((error, i) => 
-            <li key={i}> {error}</li>)}
-
-          </ul>
-        </div>)
-        :  null } 
+        {errors.length ? (
+          <div className="validation--errors">
+            <h3>Validation Errors</h3>
+            <ul>
+              {errors.map((error, i) => (
+                <li key={i}> {error}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
         <form onSubmit={handleSubmit}>
           <label htmlFor="firstName">First Name</label>
           <input id="firstName" name="firstName" type="text" ref={firstName} />
@@ -78,7 +80,7 @@ const UserSignUp = () => {
             type="email"
             ref={email}
           ></input>
-            <label htmlFor="password">Password</label>
+          <label htmlFor="password">Password</label>
           <input id="password" name="password" type="password" ref={password} />
           <button className="button" type="submit">
             Sign Up

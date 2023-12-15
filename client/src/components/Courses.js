@@ -4,6 +4,7 @@ import UserContext from "../context/UserContext";
 import { api } from "../utils/apiHelper";
 
 const Courses = () => {
+  //State
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import UserContext from "../context/UserContext";
 
+/* Provides navigations links*/
 const Nav = () => {
   const { authUser } = useContext(UserContext);
   const { actions } = useContext(UserContext);
