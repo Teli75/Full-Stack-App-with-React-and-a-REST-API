@@ -9,30 +9,32 @@ const UpdateCourse = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-    const [course, setCourse] = useState([]);
+  const [courseUser, setCourseUser] = useState([]);
 
+    const [course, setCourse] = useState({
+    title: "",
+    description: "",
+   estimatedTime: "",
+    materialsNeeded: "",
+    userId: authUser.id
+    });
 
     /* Fetches a single course from db based on params */
     useEffect(() => {
-      const fetchData = async () => {
-        const response = await api(`/courses/${id}`, "GET", null, null);
-        const courseObject= await response.json();
-      
-        if (response.status === 200) {
-          if (authUser.id === courseObject.userId)
-       
-          setCourse(courseObject.course);
-          console.log(courseObject.course);
-          setCourse(course);
-         
-        }
-      };
       fetchData();
-    }, [course]);
+    }, []);
 
-    console.log(course);
-
-   console.log(authUser);
+    const fetchData = async () => {
+       
+      const response = await api(`/courses/${id}`, "GET", null, null);
+      const courseObject= await response.json(); 
+      if (response.status === 200) {
+        setCourse(courseObject.course);
+        setCourseUser(courseObject.course.User);
+        console.log(course);
+      }
+    };
+   
   /* Fetch call to update course */
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -44,17 +46,13 @@ const UpdateCourse = () => {
     };
   
     /*Changes course state based of inputs */
-// const handleChange = (e) => {
-//   const { name, value } = e.target;
-//       setCourse((prevState) => ({
-//         ...prevState,
-//         [name]: value
-//       }));
-// };
-
-const handleChange = () =>{
-
-}
+const handleChange = (e) => {
+  const { name, value } = e.target;
+      setCourse((prevState) => ({
+        ...prevState,
+        [name]: value
+      }));
+};
 
 const handleCancel = (e) => {
   e.preventDefault();
@@ -71,7 +69,7 @@ const handleCancel = (e) => {
             <div>
                 <label htmlFor="courseTitle">Course Title</label>
                 <input id="courseTitle" name="title" type="text" value={ course.title } onChange= {handleChange}/>
-                <p>By Joe Smith</p>
+                <p>{course && `By ${courseUser.firstName} ${courseUser.lastName}`}</p>
 
                 <label htmlFor="courseDescription">Course Description</label>
                 <textarea id="courseDescription" name="description" value={ course.description } onChange= {handleChange}></textarea>

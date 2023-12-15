@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Markdown from "react-markdown";
 import UserContext from "../context/UserContext";
 import { api } from "../utils/apiHelper";
@@ -9,23 +9,24 @@ const CourseDetail = () => {
   const [course, setCourse] = useState([]);
   const [courseUser, setCourseUser] = useState([]);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
   }, [id]);
 
+
   const fetchData = async () => {
+   
     const response = await api(`/courses/${id}`, "GET", null, null);
     if (response.status === 200) {
       const course = await response.json();
       setCourse(course.course);
       setCourseUser(course.course.User);
-      console.log(course);
-      console.log(courseUser.lastName);
+    } else {
+      throw new Error();
     }
-    console.log(courseUser.lastName);
-    //In JSX I cannot use array or objects, only properties it seems.
-    //Bc course is an arr of objects including the user object, I created another state for the user
+  
   };
 
   const deleteCourse = () => {
@@ -38,7 +39,7 @@ const CourseDetail = () => {
     <main>
       <div className="actions--bar">
         <div className="wrap">
-          {authUser === null ? (
+          { authUser === null || course.userId !== authUser.id ? (
             <a className="button button-secondary" href="/">
               Return to List
             </a>

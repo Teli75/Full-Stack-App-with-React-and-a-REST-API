@@ -38,7 +38,7 @@ app.use("/api", courseRoutes);
 // send 404 if no other route matched
 app.use((req, res) => {
   res.status(404).json({
-    message: "Route Not Found",
+    message: 'Route Not Found',
   });
 });
 
@@ -55,25 +55,18 @@ app.use((err, req, res, next) => {
 });
 
 // set our port
-app.set(
-  "port",
-  process.env.PORT || 5000
-);
+app.set('port', process.env.PORT || 5000);
 
-  // Test the database connection.
-  (async () => {
-    try {
-      await sequelize.authenticate();
-      console.log("Connection has been established successfully!!!");
-    } catch (error) {
-      console.error("Unable to connect to the database:", error);
-    }
-  })();
-
-// Sequelize model synchronization
-sequelize.sync().then(() => {
-  // start listening on our port
-  const server = app.listen(app.get("port"), () => {
-    console.log(`Express server is listening on port ${server.address().port}`);
-  });
-});
+// Sequelize model synchronization, then start listening on our port.
+(async () => {
+  try {
+    await sequelize.sync();
+    await sequelize.authenticate();
+    console.log('Connection to the database successful!');
+    const server = await app.listen(app.get('port'), () => {
+      console.log(`Express server is listening on port ${server.address().port}`);
+    });
+  } catch (error) {
+    console.error('Error connecting to the database: ', error);
+  } 
+})();
