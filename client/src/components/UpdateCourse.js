@@ -10,18 +10,15 @@ const UpdateCourse = () => {
   const { authUser } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const userId = authUser.id;
-
   console.log(authUser);
+    // console.log(authUser.password);
 
-  console.log(authUser.password);
+  // const decodedPassword = atob(authUser.password); // decode the string
 
-  const decodedData = atob(authUser.password); // decode the string
-
-  const credentials = {
-    emailAddress: authUser.emailAddress,
-    password: authUser.password
-  };
+  // const credentials = {
+  //   emailAddress: authUser.emailAddress,
+  //   password: decodedPassword;
+  // };
 
   // console.log(credentials);
 
@@ -30,22 +27,40 @@ const UpdateCourse = () => {
     description: "",
    estimatedTime: "",
     materialsNeeded: "",
-    userId: ""
+    userId: authUser.id
     });
+
+    /* Fetches a single course from db based on params */
+    useEffect(() => {
+      const fetchData = async () => {
+        const response = await api(`/courses/${id}`, "GET", null, null);
+        const courseObject= await response.json();
+      
+        if (response.status === 200) {
+          if (authUser.id === courseObject.userId)
+        console.log(courseObject.course);
+          setCourse(courseObject.course);
+  
+        }
+      };
+      fetchData();
+    }, []);
 
     const { id } = useParams();
 
+  /* Fetch call to update course */
   const handleSubmit = async (event) => {
     event.preventDefault();
     // const fetchData = async () => {
-      const response = await api(`/courses/${id}`, "PUT", credentials);
+      const response = await api(`/courses/${id}`, "PUT", course, authUser.id);
       if (response.status === 200) {
         const course = await response.json();
         setCourse(course.course);
-        console.log(course.course.title);
+        
       }
     };
   
+    /*Changes course state based of inputs */
 const handleChange = (e) => {
   const { name, value } = e.target;
       setCourse((prevState) => ({
@@ -65,12 +80,8 @@ const handleCancel = (e) => {
 <div className="wrap">
     <h2>Update Course</h2>
      <form onSubmit={handleSubmit}> 
-    {/* <form> */}
         <div className="main--flex">
             <div>
-            {/* https://blog.logrocket.com/using-react-usestate-object/ */}
-            {/* https://javascript.plainenglish.io/how-to-fix-the-issue-where-we-cant-type-in-a-react-input-text-field-b7f4bcb4f5f3 */}
-            {/* https://react.dev/reference/react-dom/components/input#controlling-an-input-with-a-state-variable */}
                 <label htmlFor="courseTitle">Course Title</label>
                 <input id="courseTitle" name="title" type="text" value={ course.title } onChange= {handleChange}/>
                 <p>By Joe Smith</p>
