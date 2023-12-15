@@ -12,6 +12,7 @@ const Courses = () => {
       if (response.status === 200) {
         const courses = await response.json();
         setCourses(courses);
+        console.log(courses);
       }
     };
     fetchData();
