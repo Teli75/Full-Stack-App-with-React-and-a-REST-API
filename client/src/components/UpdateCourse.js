@@ -1,12 +1,30 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { api } from '../utils/apiHelper';
+import UserContext from "../context/UserContext";
 
 //import auth user, set userid to be authUser.id, authUser needs to sent with fetch, credentials need to be unencrypted.
 
-
 const UpdateCourse = () => {
+  const { authUser } = useContext(UserContext);
   const navigate = useNavigate();
+
+  const userId = authUser.id;
+
+  console.log(authUser);
+
+  console.log(authUser.password);
+
+  const decodedData = atob(authUser.password); // decode the string
+
+  const credentials = {
+    emailAddress: authUser.emailAddress,
+    password: authUser.password
+  };
+
+  // console.log(credentials);
+
     const [course, setCourse] = useState({
     title: "",
     description: "",
@@ -17,36 +35,17 @@ const UpdateCourse = () => {
 
     const { id } = useParams();
 
-    const fetchOptions = {
-        method: "GET"
-    };
-    const apiUrl = `http://localhost:5000/api/courses/${id}`;
-
-    const fetchData = async () => {
-        await fetch(apiUrl, fetchOptions)
-          .then((response) => response.json())
-          .then((data) => {
-            setCourse(data.course);
-          })
-          .catch((error) => {
-            console.log("Error fetching data");
-          });
-    };
-
-    //Allows components to render when they're mounted
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-  fetch(`http://localhost:5000/api/courses/${id}`, {method:'PUT'}, course)
-  .then((response) => response.json())
-  .catch((error) => {
-  console.log("Error handling post request");
-        })
-  }
-
+    // const fetchData = async () => {
+      const response = await api(`/courses/${id}`, "PUT", credentials);
+      if (response.status === 200) {
+        const course = await response.json();
+        setCourse(course.course);
+        console.log(course.course.title);
+      }
+    };
+  
 const handleChange = (e) => {
   const { name, value } = e.target;
       setCourse((prevState) => ({
@@ -54,7 +53,6 @@ const handleChange = (e) => {
         [name]: value
       }));
 };
-
 
 const handleCancel = (e) => {
   e.preventDefault();
