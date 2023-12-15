@@ -16,10 +16,6 @@ const Courses = () => {
     };
     fetchData();
   }, []);
-  //Allows components to render when they're mounted
-
-  // Pro Tip: Allow the Courses and CourseDetail components to retrieve their data from the REST API when those components are mounted.
-  //course = results.map((courses) => {
 
   return (
     <div className="wrap main--grid">

@@ -51,7 +51,9 @@ const UpdateCourse = () => {
   /* Fetch call to update course */
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // const fetchData = async () => {
+
+   console.log(course)
+   console.log(authUser.id);
       const response = await api(`/courses/${id}`, "PUT", course, authUser.id);
       if (response.status === 200) {
         const course = await response.json();

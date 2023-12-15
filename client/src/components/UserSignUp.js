@@ -39,7 +39,6 @@ const UserSignUp = () => {
         const data = await response.json();
         setErrors(data.errors);
         console.log(data);
-        // ERROR:  SequelizeUniqueConstraintError
       } else {
         throw new Error();
       }

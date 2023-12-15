@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useContext } from 'react';
 import UserContext from "../context/UserContext";
+import { api } from "../utils/apiHelper";
 
 const CreateCourse = () => {
   const { authUser } = useContext(UserContext);
@@ -17,10 +18,11 @@ const CreateCourse = () => {
     });
 
   const handleSubmit = async (e) => {
+    console.log('handle submit');
     e.preventDefault();
   
   try {
-    const response = await('http://localhost:5000/api/courses', {method: 'POST'}, course)
+    const response = await api("/courses", "POST", course);
     if (response.status === 201) {
     console.log('course created');
      } else if (response.status === 401){
@@ -37,22 +39,20 @@ const CreateCourse = () => {
 }
   }
 
-const handleChange = (e) => {
+   /*Changes course state based of inputs */
+   const handleChange = (e) => {
     const { name, value } = e.target;
-        setCourse({[name]: value });
-};
+        setCourse((prevState) => ({
+          ...prevState,
+          [name]: value
+        }));
+  };
 
-// const handleChange = (e) => {
-//     const { name, value } = e.target;
-//         setCourse((prevState) => ({
-//           ...prevState,
-//           [name]: value
-//         }));
-//   };
 const handleCancel = (e) => {
     e.preventDefault();
     navigate("/");
   };
+
   return (
     <main>
       <div className="wrap">
