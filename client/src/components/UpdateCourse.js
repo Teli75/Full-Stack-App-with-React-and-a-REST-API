@@ -9,15 +9,8 @@ const UpdateCourse = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  console.log(authUser);
+    const [course, setCourse] = useState([]);
 
-    const [course, setCourse] = useState({
-    title: "",
-    description: "",
-   estimatedTime: "",
-    materialsNeeded: "",
-    userId: authUser.id
-    });
 
     /* Fetches a single course from db based on params */
     useEffect(() => {
@@ -27,14 +20,19 @@ const UpdateCourse = () => {
       
         if (response.status === 200) {
           if (authUser.id === courseObject.userId)
-        console.log(courseObject.course);
+       
           setCourse(courseObject.course);
+          console.log(courseObject.course);
+          setCourse(course);
+         
         }
       };
       fetchData();
-    }, []);
+    }, [course]);
 
-   
+    console.log(course);
+
+   console.log(authUser);
   /* Fetch call to update course */
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -46,13 +44,17 @@ const UpdateCourse = () => {
     };
   
     /*Changes course state based of inputs */
-const handleChange = (e) => {
-  const { name, value } = e.target;
-      setCourse((prevState) => ({
-        ...prevState,
-        [name]: value
-      }));
-};
+// const handleChange = (e) => {
+//   const { name, value } = e.target;
+//       setCourse((prevState) => ({
+//         ...prevState,
+//         [name]: value
+//       }));
+// };
+
+const handleChange = () =>{
+
+}
 
 const handleCancel = (e) => {
   e.preventDefault();
