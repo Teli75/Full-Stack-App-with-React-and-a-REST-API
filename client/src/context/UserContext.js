@@ -14,8 +14,6 @@ export const UserProvider = (props) => {
 
   /* Signin function sets the auth user to a state that can be accessed globally */
   const signIn = async (credentials) => {
-    console.log("entered signin function");
-    console.log(credentials);
 
     const response = await api("/users", "GET", null, credentials);
     if (response.status === 200) {

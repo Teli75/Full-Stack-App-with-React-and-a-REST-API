@@ -19,25 +19,21 @@ const CreateCourse = () => {
 
     // Event Handlers
   const handleSubmit = async (e) => {
-    console.log("handle submit");
     e.preventDefault();
 
     /*Fetch call to create a course*/
     try {
       const response = await api("/courses", "POST", course, authUser);
       if (response.status === 201) {
-        console.log("course created");
         navigate("/");
       } else if (response.status === 400) {
         const data = await response.json();
         setErrors(data.errors);
-        console.log(data);
         console.log("User not authorized to create course");
       } else {
         throw new Error();
       }
     } catch (error) {
-      console.log(error);
     }
   };
 

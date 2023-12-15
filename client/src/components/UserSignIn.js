@@ -16,7 +16,6 @@ const UserSignIn = () => {
   // Event Handlers
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Entered signin handle submit");
 
     let from = "/";
 
@@ -28,8 +27,6 @@ const UserSignIn = () => {
       emailAddress: email.current.value,
       password: password.current.value,
     };
-
-    console.log(credentials);
 
     try {
       const user = await actions.signIn(credentials);

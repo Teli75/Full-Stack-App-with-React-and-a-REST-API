@@ -18,7 +18,6 @@ const UserSignUp = () => {
 
   // Event Handlers
   const handleSubmit = async (e) => {
-    console.log("entered handle submit signup");
     e.preventDefault();
 
     const user = {
@@ -27,8 +26,6 @@ const UserSignUp = () => {
       emailAddress: email.current.value,
       password: password.current.value,
     };
-
-    console.log(user);
 
     /*Creates user and uses userContext to sign in*/
     try {
@@ -40,7 +37,6 @@ const UserSignUp = () => {
       } else if (response.status === 400) {
         const data = await response.json();
         setErrors(data.errors);
-        console.log(data);
       } else {
         throw new Error();
       }

@@ -33,7 +33,6 @@ const UpdateCourse = () => {
       if (response.status === 200) {
         setCourse(courseObject.course);
         setCourseUser(courseObject.course.User);
-        console.log(course);
       }
     };
    
@@ -41,7 +40,6 @@ const UpdateCourse = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
       const response = await api(`/courses/${id}`, "PUT", course, authUser);
-      console.log(response);
       if (response.status === 204) {
         navigate("/");
       }
