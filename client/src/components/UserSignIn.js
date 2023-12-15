@@ -1,5 +1,5 @@
 import { useRef, useState, useContext } from "react";
-import { useNavigate, useLocation, useResolvedPath } from "react-router-dom";
+import { Link, useNavigate, useLocation} from "react-router-dom";
 import UserContext from '../context/UserContext';
 
 const UserSignIn = () => {
@@ -29,11 +29,13 @@ const UserSignIn = () => {
       emailAddress: email.current.value,
       password: password.current.value,
     };
-  
+    
+    console.log(credentials);
+
     try {
      const user = await actions.signIn(credentials);
      if (user){
-      console.log("user authenticated");
+      console.log(`${user.firstName} is authenticated`);
       navigate(from);
      } else {
        setErrors('sign in unsuccessful');

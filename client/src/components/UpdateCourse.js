@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
+//import auth user, set userid to be authUser.id, authUser needs to sent with fetch, credentials need to be unencrypted.
+
 
 const UpdateCourse = () => {
   const navigate = useNavigate();
@@ -45,17 +47,14 @@ const UpdateCourse = () => {
         })
   }
 
-// const handleChange = (e) => {
-//   const { name, value } = e.target;
-//       setCourse((prevState) => ({
-//         ...prevState,
-//         [name]: value
-//       }));
-// };
 const handleChange = (e) => {
   const { name, value } = e.target;
-      setCourse({[name]: value });
+      setCourse((prevState) => ({
+        ...prevState,
+        [name]: value
+      }));
 };
+
 
 const handleCancel = (e) => {
   e.preventDefault();
@@ -75,11 +74,11 @@ const handleCancel = (e) => {
             {/* https://javascript.plainenglish.io/how-to-fix-the-issue-where-we-cant-type-in-a-react-input-text-field-b7f4bcb4f5f3 */}
             {/* https://react.dev/reference/react-dom/components/input#controlling-an-input-with-a-state-variable */}
                 <label htmlFor="courseTitle">Course Title</label>
-                <input id="courseTitle" name="courseTitle" type="text" value={ course.title } onChange= {handleChange}/>
+                <input id="courseTitle" name="title" type="text" value={ course.title } onChange= {handleChange}/>
                 <p>By Joe Smith</p>
 
                 <label htmlFor="courseDescription">Course Description</label>
-                <textarea id="courseDescription" name="courseDescription" value={ course.description } onChange= {handleChange}></textarea>
+                <textarea id="courseDescription" name="description" value={ course.description } onChange= {handleChange}></textarea>
             </div>
             <div>
                 <label htmlFor="estimatedTime">Estimated Time</label>
