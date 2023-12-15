@@ -4,23 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../utils/apiHelper';
 import UserContext from "../context/UserContext";
 
-//import auth user, set userid to be authUser.id, authUser needs to sent with fetch, credentials need to be unencrypted.
-
 const UpdateCourse = () => {
   const { authUser } = useContext(UserContext);
   const navigate = useNavigate();
+  const { id } = useParams();
 
   console.log(authUser);
-    // console.log(authUser.password);
-
-  // const decodedPassword = atob(authUser.password); // decode the string
-
-  // const credentials = {
-  //   emailAddress: authUser.emailAddress,
-  //   password: decodedPassword;
-  // };
-
-  // console.log(credentials);
 
     const [course, setCourse] = useState({
     title: "",
@@ -40,25 +29,19 @@ const UpdateCourse = () => {
           if (authUser.id === courseObject.userId)
         console.log(courseObject.course);
           setCourse(courseObject.course);
-  
         }
       };
       fetchData();
     }, []);
 
-    const { id } = useParams();
-
+   
   /* Fetch call to update course */
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-   console.log(course)
-   console.log(authUser.id);
-      const response = await api(`/courses/${id}`, "PUT", course, authUser.id);
-      if (response.status === 200) {
-        const course = await response.json();
-        setCourse(course.course);
-        
+      const response = await api(`/courses/${id}`, "PUT", course, authUser);
+      console.log(response);
+      if (response.status === 204) {
+        navigate("/");
       }
     };
   

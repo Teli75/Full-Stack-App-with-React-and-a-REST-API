@@ -10,17 +10,17 @@ import { api } from "../utils/apiHelper";
     const { id } = useParams();
 
     useEffect(() => {
-    const fetchData = async () => {
-      const response = await api(`/courses/${id}`, "GET", null, null);
-      if (response.status === 200) {
-        const course = await response.json();
-        setCourse(course.course);
-        console.log(course.course.title);
-      }
-    };
     fetchData();
   }, []);
 
+  const fetchData = async () => {
+    const response = await api(`/courses/${id}`, "GET", null, null);
+    if (response.status === 200) {
+      const course = await response.json();
+      setCourse(course.course);
+      console.log(course.course.User);
+    }
+  };
   const deleteCourse = () => {
     fetch(`http://localhost:5000/api/courses/${id}`, {method:'DELETE'})
     .then((response) => response.json())
@@ -48,7 +48,7 @@ import { api } from "../utils/apiHelper";
                     <div>
                         <h3 className="course--detail--title">Course</h3>
                         <h4 className="course--name">{course.title}</h4>
-                        <p>By Joe Smith</p>
+                        {/* <p>{`By ${course.course.User?.firstName} ${course.course.User?.lastName}`}</p> */}
 
                         <p>{course.description}</p>
                     </div>

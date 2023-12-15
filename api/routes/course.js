@@ -29,7 +29,6 @@ router.get(
   })
 );
 
-
 // Route that creates a new course.
 router.post(
   "/courses",
@@ -83,34 +82,12 @@ router.get(
   })
 );
 
-// // router.get(
-// //   "/courses/:id/update",
-// //   asyncHandler(async (req, res) => {
-// //     console.log("Entered detail get route");
-// //     //find course
-// //     const course = await Course.findByPk(req.params.id, {
-// //       include: [
-// //         {
-// //           model: User,
-// //         },
-// //       ],
-// //     });
-
-//     if (course) {
-//       //res.json(course);
-//       res.status(200).json({ course });
-//     } else {
-//       next();
-//     }
-//   })
-// );
-
 /*
   /api/courses/:id PUT route that will update the corresponding course and return a 204 HTTP status code and no content.
    */
 
 router.put(
-  "/courses/:id/update",
+  "/courses/:id",
   authenticateUser,
   asyncHandler(async (req, res) => {
     try {

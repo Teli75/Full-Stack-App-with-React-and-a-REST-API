@@ -18,6 +18,7 @@ const signIn = async (credentials) => {
     const response = await api("/users", "GET", null, credentials);
       if (response.status === 200) {
         const user = await response.json();
+        user.password = credentials.password;
         setAuthUser(user);
          console.log(`${user.firstName} is signed in`);
         Cookies.set("authenticatedUser", JSON.stringify(user), {expires: 1});

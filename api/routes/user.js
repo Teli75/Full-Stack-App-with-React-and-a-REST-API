@@ -19,8 +19,9 @@ router.get(
     const user = req.currentUser;
     console.log(user);
 
-    
+    res.location('/');
     res.json({
+      id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       emailAddress: user.emailAddress,
@@ -39,7 +40,6 @@ router.post(
 
       await User.create(req.body);
 
-      res.location('/');
       res.status(201).json();
       return;
     } catch (error) {

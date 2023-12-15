@@ -14,7 +14,8 @@ const CreateCourse = () => {
     title: "",
     description: "",
    estimatedTime: "",
-    materialsNeeded: ""
+    materialsNeeded: "",
+    userId: authUser.id
     });
 
   const handleSubmit = async (e) => {
@@ -22,10 +23,11 @@ const CreateCourse = () => {
     e.preventDefault();
   
   try {
-    const response = await api("/courses", "POST", course);
+    const response = await api("/courses", "POST", course, authUser);
     if (response.status === 201) {
     console.log('course created');
-     } else if (response.status === 401){
+    navigate("/");
+     } else if (response.status === 400){
       const data = await response.json();
         setErrors(data.errors);
         console.log(data);
@@ -35,7 +37,7 @@ const CreateCourse = () => {
   }
 } catch (error) {
   console.log(error);
-  navigate("/Error");
+
 }
   }
 
@@ -57,7 +59,7 @@ const handleCancel = (e) => {
     <main>
       <div className="wrap">
         <h2>Create Course</h2>
-        {errors.length ? (
+        {errors && errors.length ? (
         <div className="validation--errors">
           <h3>Validation Errors</h3>
           <ul>
@@ -69,14 +71,14 @@ const handleCancel = (e) => {
           <div className="main--flex">
             <div>
               <label htmlFor="courseTitle">Course Title</label>
-              <input id="courseTitle" name="courseTitle" type="text" value= {course.title} onChange={handleChange} />
+              <input id="courseTitle" name="title" type="text" value= {course.title} onChange={handleChange} />
 
               <p>By Joe Smith</p>
 
               <label htmlFor="courseDescription">Course Description</label>
               <textarea
                 id="courseDescription"
-                name="courseDescription"
+                name="description"
                 value={ course.description } 
                 onChange={handleChange}
               ></textarea>

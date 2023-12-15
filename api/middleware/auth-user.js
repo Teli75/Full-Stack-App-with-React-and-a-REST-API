@@ -17,14 +17,10 @@ exports.authenticateUser = async (req, res, next) => {
 
   // Parse the user's credentials from the Authorization header.
   const credentials = auth(req);
-  console.log('test');
-  console.log(credentials);
-  console.log('test');
 
   if (credentials) {
     //Check if the user's email address) is associated with a known user account in the db using a Sequelize finder method.
     const user = await User.findOne({ where: { emailAddress: credentials.name } });
-    
 
     if (user) {
       //compareSync() method to compare the user's password (from the Authorization header) to the encrypted password retrieved from the database
@@ -42,7 +38,7 @@ exports.authenticateUser = async (req, res, next) => {
         message = `Authentication failure for username: ${user.emailAddress}`;
       }
     } else {
-      message = `User not found for username: ${credentials.name}`;
+      message = `User not found for email: ${credentials.name}`;
     }
   } else {
     message = "Auth header not found";
