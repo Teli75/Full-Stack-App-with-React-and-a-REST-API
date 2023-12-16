@@ -4,7 +4,6 @@ import Markdown from "react-markdown";
 import UserContext from "../context/UserContext";
 import { api } from "../utils/apiHelper";
 
-
 const CourseDetail = () => {
   const { authUser } = useContext(UserContext);
   const [course, setCourse] = useState([]);
@@ -15,29 +14,27 @@ const CourseDetail = () => {
   const [courseUser, setCourseUser] = useState([]);
 
   useEffect(() => {
+    const fetchData = async () => {
+      const response = await api(`/courses/${id}`, "GET", null, null);
+      if (response.status === 200) {
+        const course = await response.json();
+        setCourse(course.course);
+        setCourseUser(course.course.User);
+      } else if (!response.course) {
+        navigate("/notfound");
+      } else {
+        throw new Error();
+      }
+    };
     fetchData();
-  }, [id]);
+  }, [id, navigate]);
 
   /* Fetch call to server to get specific course based off url parameter or course clicked.
   Sets course and user. If user matches course, displays options to update and delete. If there is no response due to invalid course number, navigates users to not found*/
 
-  const fetchData = async () => {
-    const response = await api(`/courses/${id}`, "GET", null, null);
-    if (response.status === 200) {
-      const course = await response.json();
-      setCourse(course.course);
-      setCourseUser(course.course.User);
-    } else if (!response.course) {
-      navigate("/notfound");
-    } else {
-      throw new Error();
-    }
-  };
-
   const deleteCourse = async () => {
-    const response = await api(`/courses/${id}`, "DELETE", null, authUser);
+    await api(`/courses/${id}`, "DELETE", null, authUser);
     navigate("/");
-    
   };
 
   return (
@@ -53,9 +50,9 @@ const CourseDetail = () => {
               <a className="button" href={`/courses/${id}/update`}>
                 Update Course
               </a>
-              <a className="button" onClick={deleteCourse}>
+              <button className="button" onClick={deleteCourse}>
                 Delete Course
-              </a>
+              </button>
               <a className="button button-secondary" href="/">
                 Return to List
               </a>

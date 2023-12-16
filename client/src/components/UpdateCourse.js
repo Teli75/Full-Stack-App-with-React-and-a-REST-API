@@ -22,12 +22,7 @@ const UpdateCourse = () => {
 
  //calls fetchData function everytime page is rerendered
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  //Fetches a single course from db based on params 
-  /** Renders the input fields based on the body of the fetch call */
-  const fetchData = async () => {
+    const fetchData = async () => {
     const response = await api(`/courses/${id}`, "GET", null, null);
     const courseObject = await response.json();
     if (response.status === 200) {
@@ -36,6 +31,12 @@ const UpdateCourse = () => {
     }
   };
 
+    fetchData();
+  }, [id]);
+
+  //Fetches a single course from db based on params 
+  /** Renders the input fields based on the body of the fetch call */
+  
   // Fetch call to update course 
   /* Uses user's inputs to create a new course object that is sent to the server. authUser is sent so the BE can check if the user matches the course*/
   const handleSubmit = async (event) => {
