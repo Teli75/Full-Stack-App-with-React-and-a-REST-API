@@ -10,17 +10,16 @@ export const UserProvider = (props) => {
 
   //State
   const [authUser, setAuthUser] = useState(cookie ? JSON.parse(cookie) : null);
-  useState([]);
 
-  /* Signin function sets the auth user to a state that can be accessed globally */
+  /* Signin function sets auth user to a state that can be accessed globally */
   const signIn = async (credentials) => {
 
+    /*Fetch call sends credentials provided UserSignIn.js to server auth-user middlware for authentication. user.password is saved before it's encoded.*/
     const response = await api("/users", "GET", null, credentials);
     if (response.status === 200) {
       const user = await response.json();
       user.password = credentials.password;
       setAuthUser(user);
-      console.log(`${user.firstName} is signed in`);
       Cookies.set("authenticatedUser", JSON.stringify(user), { expires: 1 });
       return user;
     } else if (response.status === 401) {
@@ -30,13 +29,14 @@ export const UserProvider = (props) => {
     }
   };
 
+  //Uses SignOut component
   const signOut = () => {
     setAuthUser(null);
     Cookies.remove("authenticatedUser");
-    console.log("user has been signed out");
   };
 
   return (
+    //Provides access to global objects and functions 
     <UserContext.Provider
       value={{
         authUser,

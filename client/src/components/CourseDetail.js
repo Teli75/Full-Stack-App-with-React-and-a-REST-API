@@ -4,6 +4,7 @@ import Markdown from "react-markdown";
 import UserContext from "../context/UserContext";
 import { api } from "../utils/apiHelper";
 
+
 const CourseDetail = () => {
   const { authUser } = useContext(UserContext);
   const [course, setCourse] = useState([]);
@@ -16,6 +17,9 @@ const CourseDetail = () => {
   useEffect(() => {
     fetchData();
   }, [id]);
+
+  /* Fetch call to server to get specific course based off url parameter or course clicked.
+  Sets course and user. If user matches course, displays options to update and delete. If there is no response due to invalid course number, navigates users to not found*/
 
   const fetchData = async () => {
     const response = await api(`/courses/${id}`, "GET", null, null);
@@ -30,10 +34,10 @@ const CourseDetail = () => {
     }
   };
 
-  const deleteCourse = () => {
-    fetch(`http://localhost:5000/api/courses/${id}`, { method: "DELETE" }).then(
-      (response) => response.json()
-    );
+  const deleteCourse = async () => {
+    const response = await api(`/courses/${id}`, "DELETE", null, authUser);
+    navigate("/");
+    
   };
 
   return (
@@ -69,7 +73,7 @@ const CourseDetail = () => {
               <h4 className="course--name">{course.title}</h4>
               <p>{`By ${courseUser.firstName} ${courseUser.lastName}`}</p>
 
-              <p>{course.description}</p>
+              <Markdown>{course.description}</Markdown>
             </div>
             <div>
               <h3 className="course--detail--title">Estimated Time</h3>

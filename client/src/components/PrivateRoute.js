@@ -3,7 +3,7 @@ import UserContext from "../context/UserContext";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 
-/*If user has signed-in, outlet tag renders the child routes */
+/*If user has signed-in, outlet tag renders the child routes, else user is asked to signin */
 const PrivateRoute = () => {
   const { authUser } = useContext(UserContext);
   const location = useLocation();

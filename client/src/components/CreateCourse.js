@@ -21,7 +21,7 @@ const CreateCourse = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    /*Fetch call to create a course*/
+    /*Fetch call to create a course by using the course body from the user's input*/
     try {
       const response = await api("/courses", "POST", course, authUser);
       if (response.status === 201) {
@@ -29,7 +29,6 @@ const CreateCourse = () => {
       } else if (response.status === 400) {
         const data = await response.json();
         setErrors(data.errors);
-        console.log("User not authorized to create course");
       } else {
         throw new Error();
       }

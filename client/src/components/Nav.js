@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import UserContext from "../context/UserContext";
 
-/* Provides navigations links*/
+/* Provides navigations links to signin or sign up if user is not authenticated*/
 const Nav = () => {
   const { authUser } = useContext(UserContext);
   const { actions } = useContext(UserContext);
@@ -22,6 +22,7 @@ const Nav = () => {
 
             <br></br>
             <Link to="/"><span onClick={actions.signOut}>Sign Out</span></Link>
+            
            
           </li>
         </ul>

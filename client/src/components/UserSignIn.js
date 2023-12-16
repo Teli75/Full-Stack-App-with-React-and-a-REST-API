@@ -6,7 +6,6 @@ const UserSignIn = () => {
   const { actions } = useContext(UserContext);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
 
   // State
   const email = useRef(null);
@@ -17,6 +16,7 @@ const UserSignIn = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    //Redirects user to his/her previous browsing location after they signin. Previous location is set in Private Route
     let from = "/";
 
     if (location.state) {
@@ -28,10 +28,10 @@ const UserSignIn = () => {
       password: password.current.value,
     };
 
+    /* Calls global signin function and passes credentials from user's input as a parameter*/
     try {
       const user = await actions.signIn(credentials);
       if (user) {
-        console.log(`${user.firstName} is authenticated`);
         navigate(from);
       } else {
         setErrors("sign in unsuccessful");

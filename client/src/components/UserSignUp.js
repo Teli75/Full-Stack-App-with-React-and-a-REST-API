@@ -1,10 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRef, useState, useContext } from "react";
 import { api } from "../utils/apiHelper";
 
 import UserContext from "../context/UserContext";
 
-/* Signs user in */
+/* User signin uses UserContext*/
 const UserSignUp = () => {
   const { actions } = useContext(UserContext);
   const navigate = useNavigate();
@@ -27,11 +27,11 @@ const UserSignUp = () => {
       password: password.current.value,
     };
 
-    /*Creates user and uses userContext to sign in*/
+    /* Fetch call to send user inputs to server. 
+    If successful, adds user and renders home page. Else if, shows validation errors. Else sends to api for error handling and renders error page*/
     try {
-      const response = await api("/users", "POST", user);
+      const response = await api("/users", "POST", user, null);
       if (response.status === 201) {
-        console.log(`${user.firstName} is signed up!`);
         await actions.signIn(user);
         navigate("/");
       } else if (response.status === 400) {
@@ -41,7 +41,6 @@ const UserSignUp = () => {
         throw new Error();
       }
     } catch (error) {
-      console.log(error);
       navigate("/Error");
     }
   };
@@ -54,7 +53,7 @@ const UserSignUp = () => {
     <main>
       <div className="form--centered">
         <h2>Sign Up</h2>
-        {errors.length ? (
+        {errors && errors.length ? (
           <div className="validation--errors">
             <h3>Validation Errors</h3>
             <ul>
